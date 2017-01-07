@@ -1,0 +1,29 @@
+{
+  "name": "richardhj/contao-model-events",
+  "type": "contao-module",
+  "description": "",
+  "keywords": [
+    "contao"
+  ],
+  "license": "LGPL-3.0+",
+  "authors": [
+    {
+      "name": "Richard Henkenjohann",
+      "email": "richardhenkenjohann@googlemail.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/richardhj/contao-model-events/issues",
+    "source": "https://github.com/richardhj/contao-model-events"
+  },
+  "require": {
+    "php": "^5.4 || ^7.0",
+    "contao/core": "^3.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Contao\\Model\\": "src/"
+    }
+  }
+}
