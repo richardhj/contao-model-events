@@ -5,7 +5,7 @@ namespace Contao\Model\Event;
 use Symfony\Component\EventDispatcher\Event;
 
 
-class DeleteSaveModelEvent extends Event
+class DeleteModelEvent extends Event
 {
 
     const NAME = 'model.delete';
@@ -18,7 +18,7 @@ class DeleteSaveModelEvent extends Event
 
 
     /**
-     * DeleteSaveModelEvent constructor.
+     * DeleteModelEvent constructor.
      *
      * @param \Model $model
      */

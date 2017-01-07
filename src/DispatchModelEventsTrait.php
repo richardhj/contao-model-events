@@ -3,7 +3,7 @@
 namespace Contao\Model;
 
 use Composer\EventDispatcher\EventDispatcher;
-use Contao\Model\Event\DeleteSaveModelEvent;
+use Contao\Model\Event\DeleteModelEvent;
 use Contao\Model\Event\PostSaveModelEvent;
 use Contao\Model\Event\PreSaveModelEvent;
 
@@ -70,7 +70,7 @@ trait DispatchModelEventsTrait
             $dispatcher = $container['event-dispatcher'];
 
             /** @noinspection PhpParamsInspection */
-            $dispatcher->dispatch(DeleteSaveModelEvent::NAME, new DeleteSaveModelEvent($this));
+            $dispatcher->dispatch(DeleteModelEvent::NAME, new DeleteModelEvent($this));
         }
     }
 }
