@@ -8,7 +8,7 @@ use Symfony\Component\EventDispatcher\Event;
 class PreSaveModelEvent extends Event
 {
 
-    const NAME = 'model.post-save';
+    const NAME = 'model.pre-save';
 
 
     /**
