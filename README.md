@@ -43,7 +43,7 @@ class MyModule extends Model
 } 
 ```
 
-### Listen to the events
+### Listen on the events
 
 https://github.com/contao-community-alliance/event-dispatcher#listen-on-events
 
