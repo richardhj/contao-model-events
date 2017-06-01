@@ -27,8 +27,7 @@ trait DispatchModelEventsTrait
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $container['event-dispatcher'];
-        /** @noinspection PhpParamsInspection */
-        /** @noinspection PhpUndefinedMethodInspection */
+        /** @var \Model $this */
         $event = new PreSaveModelEvent($this, $this->cloneOriginal(), $arrData);
         $dispatcher->dispatch(PreSaveModelEvent::NAME, $event);
 
@@ -50,7 +49,7 @@ trait DispatchModelEventsTrait
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = $container['event-dispatcher'];
-        /** @noinspection PhpParamsInspection */
+        /** @var \Model $this */
         $dispatcher->dispatch(PostSaveModelEvent::NAME, new PostSaveModelEvent($this, $this->cloneOriginal()));
     }
 
@@ -68,8 +67,7 @@ trait DispatchModelEventsTrait
 
             /** @var EventDispatcher $dispatcher */
             $dispatcher = $container['event-dispatcher'];
-
-            /** @noinspection PhpParamsInspection */
+            /** @var \Model $this */
             $dispatcher->dispatch(DeleteModelEvent::NAME, new DeleteModelEvent($this));
         }
     }
