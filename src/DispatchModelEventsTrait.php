@@ -1,11 +1,22 @@
 <?php
+/**
+ * This file is part of richardhj/contao-ferienpass.
+ *
+ * Copyright (c) 2015-2018 Richard Henkenjohann
+ *
+ * @package   richardhj/contao-ferienpass
+ * @author    Richard Henkenjohann <richardhenkenjohann@googlemail.com>
+ * @copyright 2015-2018 Richard Henkenjohann
+ * @license   https://github.com/richardhj/contao-ferienpass/blob/master/LICENSE
+ */
 
 namespace Contao\Model;
 
-use Composer\EventDispatcher\EventDispatcher;
 use Contao\Model\Event\DeleteModelEvent;
 use Contao\Model\Event\PostSaveModelEvent;
 use Contao\Model\Event\PreSaveModelEvent;
+use Contao\System;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 
 trait DispatchModelEventsTrait
@@ -14,61 +25,73 @@ trait DispatchModelEventsTrait
     /**
      * Dispatch the PreSaveModelEvent to modify the current row before it is stored in the database
      *
-     * @param array $arrData
+     * @param array $data
      *
      * @return array
+     *
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
      */
-    protected function preSave(array $arrData)
+    protected function preSave(array $data)
     {
-        global $container;
+        $data = parent::preSave($data);
 
-        /** @noinspection PhpUndefinedMethodInspection */
-        $arrData = parent::preSave($arrData);
-
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $container['event-dispatcher'];
         /** @var \Model $this */
-        $event = new PreSaveModelEvent($this, $this->cloneOriginal(), $arrData);
-        $dispatcher->dispatch(PreSaveModelEvent::NAME, $event);
+        $event = new PreSaveModelEvent($this, $this->cloneOriginal(), $data);
+        $this->getEventDispatcher()->dispatch(PreSaveModelEvent::NAME, $event);
 
         return $event->getData();
     }
 
-
     /**
      * Dispatch the PostSaveModelEvent
      *
-     * @param int $intType
+     * @param int $type
+     *
+     * @return void
+     *
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
      */
-    protected function postSave($intType)
+    protected function postSave($type)
     {
-        global $container;
+        parent::postSave($type);
 
-        /** @noinspection PhpUndefinedMethodInspection */
-        parent::postSave($intType);
-
-        /** @var EventDispatcher $dispatcher */
-        $dispatcher = $container['event-dispatcher'];
         /** @var \Model $this */
-        $dispatcher->dispatch(PostSaveModelEvent::NAME, new PostSaveModelEvent($this, $this->cloneOriginal()));
+        $event = new PostSaveModelEvent($this, $this->cloneOriginal());
+        $this->getEventDispatcher()->dispatch(PostSaveModelEvent::NAME, $event);
     }
-
 
     /**
      * Dispatch the DeleteModelEvent after deleting the model
      *
-     * @return void
+     * @return integer
+     *
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
      */
     public function delete()
     {
-        /** @noinspection PhpUndefinedMethodInspection */
-        if (parent::delete()) {
-            global $container;
-
-            /** @var EventDispatcher $dispatcher */
-            $dispatcher = $container['event-dispatcher'];
+        if ($affected = parent::delete()) {
             /** @var \Model $this */
-            $dispatcher->dispatch(DeleteModelEvent::NAME, new DeleteModelEvent($this));
+            $event = new DeleteModelEvent($this);
+            $this->getEventDispatcher()->dispatch(DeleteModelEvent::NAME, $event);
         }
+
+        return $affected;
+    }
+
+    /**
+     * @return EventDispatcherInterface
+     *
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
+     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
+     */
+    private function getEventDispatcher(): EventDispatcherInterface
+    {
+        $dispatcher = System::getContainer()->get('event_dispatcher');
+
+        /** @var EventDispatcherInterface $dispatcher */
+        return $dispatcher;
     }
 }
