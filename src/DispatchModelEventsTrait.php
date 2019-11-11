@@ -16,7 +16,7 @@ trait DispatchModelEventsTrait
      * Dispatch the PreSaveModelEvent to modify the current row before it is
      * stored in the database
      */
-    protected function preSave(array $data): array
+    protected function preSave($data)
     {
         $data = parent::preSave($data);
 
@@ -30,7 +30,7 @@ trait DispatchModelEventsTrait
     /**
      * Dispatch the PostSaveModelEvent
      */
-    protected function postSave(int $type): void
+    protected function postSave($type)
     {
         parent::postSave($type);
 
@@ -42,7 +42,7 @@ trait DispatchModelEventsTrait
     /**
      * Dispatch the DeleteModelEvent after deleting the model
      */
-    public function delete(): int
+    public function delete()
     {
         if ($affected = parent::delete()) {
             /** @var Model $this */
