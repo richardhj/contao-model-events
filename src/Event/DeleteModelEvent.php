@@ -17,7 +17,7 @@ class DeleteModelEvent extends Event
         $this->model = $model;
     }
 
-    public function getModel()
+    public function getModel(): Model
     {
         return $this->model;
     }
