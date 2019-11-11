@@ -47,4 +47,4 @@ From now on, the above mentioned events get triggered on any `save()` and `delet
 [ico-version]: https://img.shields.io/packagist/v/richardhj/contao-model-events.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-LGPL-brightgreen.svg?style=flat-square
 
-[link-dependencies]: https://www.versioneye.com/php/richardhj:contao-model-events
+[link-packagist]: https://packagist.org/packages/richardhj/contao-model-events
